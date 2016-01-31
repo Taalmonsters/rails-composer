@@ -1905,7 +1905,7 @@ stage_two do
 TEXT
     prod_email_text = <<-TEXT
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
@@ -2224,8 +2224,9 @@ stage_three do
       foreman_email = "MANDRILL_USERNAME=Your_Username\nMANDRILL_APIKEY=Your_API_Key\nDOMAIN_NAME=example.com\n"
   end
   figaro_email  = foreman_email.gsub('=', ': ')
-  secrets_d_devise = "  admin_name: First User\n  admin_email: user@example.com\n  admin_password: changeme"
-  secrets_p_devise = "  admin_name: <%= ENV[\"ADMIN_NAME\"] %>\n  admin_email: <%= ENV[\"ADMIN_EMAIL\"] %>\n  admin_password: <%= ENV[\"ADMIN_PASSWORD\"] %>"
+  secrets_d_devise = "  admin_name: <%= ENV[\"RAILS_ADMIN_NAME\"] %>\n  admin_email: <%= ENV[\"RAILS_ADMIN_EMAIL\"] %>\n  admin_password: <%= ENV[\"RAILS_ADMIN_PASSWORD\"] %>"
+  # secrets_d_devise = "  admin_name: First User\n  admin_email: user@example.com\n  admin_password: changeme"
+  secrets_p_devise = "  admin_name: <%= ENV[\"RAILS_ADMIN_NAME\"] %>\n  admin_email: <%= ENV[\"RAILS_ADMIN_EMAIL\"] %>\n  admin_password: <%= ENV[\"RAILS_ADMIN_PASSWORD\"] %>"
   foreman_devise = "ADMIN_NAME=First User\nADMIN_EMAIL=user@example.com\nADMIN_PASSWORD=changeme\n"
   figaro_devise  = foreman_devise.gsub('=', ': ')
   secrets_omniauth = "  omniauth_provider_key: <%= ENV[\"OMNIAUTH_PROVIDER_KEY\"] %>\n  omniauth_provider_secret: <%= ENV[\"OMNIAUTH_PROVIDER_SECRET\"] %>"
@@ -2468,12 +2469,12 @@ TEXT
         append_file 'app.json' do <<-TEXT
     "GMAIL_USERNAME": {
       "description": "Your Gmail address for sending mail.",
-      "value": "user@example.com",
+      "value": 'ENV["GMAIL_USERNAME"]',
       "required": false
     },
     "GMAIL_PASSWORD": {
       "description": "Your Gmail password for sending mail.",
-      "value": "changeme",
+      "value": 'ENV["GMAIL_PASSWORD"]',
       "required": false
     },
 TEXT
@@ -2526,17 +2527,17 @@ TEXT
       append_file 'app.json' do <<-TEXT
     "ADMIN_EMAIL": {
       "description": "The administrator's email address for signing in.",
-      "value": "user@example.com",
+      "value": 'ENV["RAILS_ADMIN_EMAIL"]',
       "required": true
     },
     "ADMIN_PASSWORD": {
       "description": "The administrator's password for signing in.",
-      "value": "changeme",
+      "value": 'ENV["RAILS_ADMIN_PASSWORD"]',
       "required": true
     },
     "DOMAIN_NAME": {
       "description": "Required for sending mail. Give an app name or use a custom domain.",
-      "value": "myapp.herokuapp.com",
+      "value": 'ENV["DOMAIN_NAME"]',
       "required": false
     },
 TEXT
