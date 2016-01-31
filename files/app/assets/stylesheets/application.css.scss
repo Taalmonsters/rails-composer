@@ -45,9 +45,13 @@ html, body {
   padding: 0;
   height: 100%;
   overflow: hidden;
+  overflow-y: auto;
   position: relative;
   z-index: 1;
   font-family: 'Roboto Slab', sans-serif;
+  main {
+    min-height: 100%;
+  }
   #banner {
     position: absolute;
     bottom: 15px;
