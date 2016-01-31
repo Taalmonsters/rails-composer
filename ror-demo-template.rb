@@ -1,6 +1,5 @@
 apply "https://raw.github.com/Taalmonsters/rails-composer/master/devise-gmail-composer.rb"
 
-
 # route 'root :to => "sessions#new"'
 # route 'get "sign_up" => "users#new", :as => "sign_up"'
 # route 'get "log_in" => "sessions#new", :as => "log_in"'
