@@ -1276,7 +1276,7 @@ prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "non
 
 ## Pages
 if recipes.include? 'pages'
-  prefs[:pages] = "about"
+  prefs[:pages] = "about+users"
   prefs[:pages] = multiple_choice "Add pages?", [["None", "none"],
     ["Home", "home"], ["Home and About", "about"],
     ["Home and Users", "users"],
