@@ -51,6 +51,7 @@ html, body {
   main {
     height: calc( 100% - 51px );
     overflow-y: auto;
+    padding-bottom: 0 !important;
   }
   #banner {
     position: absolute;
