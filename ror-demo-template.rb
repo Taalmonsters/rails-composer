@@ -44,10 +44,21 @@ if yes?("Add demo banner?")
   git commit: %Q{ -m 'Add demo banner' }
 end
 
-# Transform to two-column layout
 if yes?("Use two-column-layout?")
-  
+  # Transform to two-column layout
+  copy_from_repo 'app/views/users/two_column_index.html.erb',
+    {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  copy_from_repo 'app/views/users/two_column_show.html.erb',
+    {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
   git add: "."
-  git commit: %Q{ -m 'Transform to two-column layout' }
+  git commit: %Q{ -m 'Transform User pages to two-column layout' }
+else
+  # Transform to single-column layout
+  copy_from_repo 'app/views/users/single_column_index.html.erb',
+    {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  copy_from_repo 'app/views/users/single_column_show.html.erb',
+    {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  git add: "."
+  git commit: %Q{ -m 'Transform User pages to single-column layout' }
 end
 
