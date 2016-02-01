@@ -53,24 +53,44 @@ copy_from_repo 'lib/generators/two_column_layout/templates/layout.html.erb',
   {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
 copy_from_repo 'lib/generators/two_column_layout/templates/stylesheet.scss',
   {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+git add: "."
+git commit: %Q{ -m 'Add layout generators' }
 
-# if yes?("Use two-column-layout?")
-  # # Transform to two-column layout
-  # s = IO.read('app/views/users/index.html.erb')
-  # s = s.gsub()
-  # copy_from_repo 'app/views/users/two_column_index.html.erb',
-    # {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  # copy_from_repo 'app/views/users/two_column_show.html.erb',
-    # {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  # git add: "."
-  # git commit: %Q{ -m 'Transform User pages to two-column layout' }
-# else
-  # # Transform to single-column layout
-  # copy_from_repo 'app/views/users/single_column_index.html.erb',
-    # {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  # copy_from_repo 'app/views/users/single_column_show.html.erb',
-    # {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  # git add: "."
-  # git commit: %Q{ -m 'Transform User pages to single-column layout' }
-# end
+if yes?("Use two-column-layout?")
+  # Transform to two-column layout
+  generate 'two_column_layout users index'
+  generate 'two_column_layout users show'
+  git add: "."
+  git commit: %Q{ -m 'Transform User pages to two-column layout' }
+else
+  # Transform to single-column layout
+  generate 'single_column_layout users index'
+  generate 'single_column_layout users show'
+  git add: "."
+  git commit: %Q{ -m 'Transform User pages to single-column layout' }
+end
 
+# Add content to user index
+inject_into_file 'app/views/users/index.html.erb', :after => "</h1>" do <<-'RUBY'
+    <table class="table">
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <%= render user %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+RUBY
+end
+git add: "."
+git commit: %Q{ -m 'Add content to user index' }
+
+# Add content to user show
+inject_into_file 'app/views/users/show.html.erb', :after => "</h1>" do <<-'RUBY'
+    <p>Name: <%= @user.name if @user.name %></p>
+    <p>Email: <%= @user.email if @user.email %></p>
+RUBY
+end
+git add: "."
+git commit: %Q{ -m 'Add content to user show' }
