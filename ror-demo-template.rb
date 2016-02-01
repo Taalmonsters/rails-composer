@@ -23,5 +23,8 @@ end
 
 gsub_file 'app/views/layouts/application.html.erb', /\<title\>/, '<title>De Taalmonsters - '
 
+copy_from_repo 'app/views/home/index.html.erb',
+  {:dest => 'app/views/visitors/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+
 git add: "."
 git commit: %Q{ -m 'Commit after generate' }
