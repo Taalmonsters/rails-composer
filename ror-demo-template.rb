@@ -21,5 +21,7 @@ inject_into_file 'app/views/layouts/application.html.erb', :before => "</body>" 
 RUBY
 end
 
+gsub_file 'app/views/layouts/application.html.erb', /\<title\>/, '<title>De Taalmonsters - '
+
 git add: "."
 git commit: %Q{ -m 'Commit after generate' }
