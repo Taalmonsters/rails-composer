@@ -14,11 +14,13 @@ copy_from_repo '5c7b9fe5572e6783c47de7e0366ae54c16b5d0ab/devise_invitable.nl.yml
 
 copy_from_repo 'config/locales/nl.yml',
   {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  
+ 
+if yes?("Add demo banner?")
 # Add demo banner
 inject_into_file 'app/views/layouts/application.html.erb', :before => "</body>" do <<-'RUBY'
     <div id="banner">DEMO</div>
 RUBY
+end
 end
 
 gsub_file 'app/views/layouts/application.html.erb', /\<title\>/, '<title>De Taalmonsters - '
