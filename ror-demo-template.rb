@@ -44,21 +44,33 @@ if yes?("Add demo banner?")
   git commit: %Q{ -m 'Add demo banner' }
 end
 
-if yes?("Use two-column-layout?")
-  # Transform to two-column layout
-  copy_from_repo 'app/views/users/two_column_index.html.erb',
-    {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  copy_from_repo 'app/views/users/two_column_show.html.erb',
-    {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  git add: "."
-  git commit: %Q{ -m 'Transform User pages to two-column layout' }
-else
-  # Transform to single-column layout
-  copy_from_repo 'app/views/users/single_column_index.html.erb',
-    {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  copy_from_repo 'app/views/users/single_column_show.html.erb',
-    {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
-  git add: "."
-  git commit: %Q{ -m 'Transform User pages to single-column layout' }
-end
+# Add layout generators
+copy_from_repo 'lib/generators/two_column_layout/two_column_layout_generator.rb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/two_column_layout/templates/_copyright.rb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/two_column_layout/templates/layout.html.erb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/two_column_layout/templates/stylesheet.scss',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+
+# if yes?("Use two-column-layout?")
+  # # Transform to two-column layout
+  # s = IO.read('app/views/users/index.html.erb')
+  # s = s.gsub()
+  # copy_from_repo 'app/views/users/two_column_index.html.erb',
+    # {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  # copy_from_repo 'app/views/users/two_column_show.html.erb',
+    # {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  # git add: "."
+  # git commit: %Q{ -m 'Transform User pages to two-column layout' }
+# else
+  # # Transform to single-column layout
+  # copy_from_repo 'app/views/users/single_column_index.html.erb',
+    # {:dest => 'app/views/users/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  # copy_from_repo 'app/views/users/single_column_show.html.erb',
+    # {:dest => 'app/views/users/show.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+  # git add: "."
+  # git commit: %Q{ -m 'Transform User pages to single-column layout' }
+# end
 
