@@ -76,6 +76,12 @@ nav.navbar {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   border-radius: 0px;
+  a.navbar-brand {
+    font-weight: 500;
+    font-size: large;
+    margin-left: 0px !important;
+    color: #FFF;
+  }
   a.navbar-img {
     padding: 5px;
     img.mini-logo {
