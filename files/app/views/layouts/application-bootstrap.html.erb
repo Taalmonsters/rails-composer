@@ -2,12 +2,15 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Home" %></title>
+    <title>De Taalmonsters - <%= content_for?(:title) ? yield(:title) : "Home" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "no description" %>">
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
+    <!--[if lt IE 9]>
+    	<script src="bower_components/html5shiv/dist/html5shiv.js"></script>
+	<![endif]-->
   </head>
   <body class="<%= controller_name %> <%= action_name %>">
     <div class="navbar navbar-fixed-top">
