@@ -45,6 +45,14 @@ if yes?("Add demo banner?")
 end
 
 # Add layout generators
+copy_from_repo 'lib/generators/single_column_layout/single_column_layout_generator.rb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/single_column_layout/templates/_copyright.html.erb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/single_column_layout/templates/layout.html.erb',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
+copy_from_repo 'lib/generators/single_column_layout/templates/stylesheet.scss',
+  {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
 copy_from_repo 'lib/generators/two_column_layout/two_column_layout_generator.rb',
   {:repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
 copy_from_repo 'lib/generators/two_column_layout/templates/_copyright.html.erb',
