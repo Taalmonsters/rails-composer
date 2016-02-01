@@ -176,7 +176,7 @@ def copy_from_repo(filename, opts = {})
     return
   end
   source_filename = filename
-  destination_filename = filename
+  destination_filename = opts[:dest].nil? ? filename : opts[:dest]
   unless opts[:prefs].nil?
     if filename.include? opts[:prefs]
       destination_filename = filename.gsub(/\-#{opts[:prefs]}/, '')
