@@ -1,0 +1,18 @@
+<div class="graph">
+	<div class="row">
+		<div class="col-xs-12 col-sm-3 col-md-2 graph-info hidden">
+			<div class="row">
+				<div class="col-xs-6 col-sm-12 node-info"></div>
+				<div class="col-xs-6 col-sm-12 links-info"></div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-9 col-md-10 graph-display"></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 graph-controls"></div>
+	</div>
+</div>
+<script>
+	displayGraph(<%%= data %>, 
+		"#<%%= target %> div.graph-display", $("#<%%= target %> div.graph-display").width(), $("#<%%= target %> div.graph-display").height(), function(d) { return d.<%%= x_param %> }, function(d) { return d.<%%= y_param %> });
+</script>

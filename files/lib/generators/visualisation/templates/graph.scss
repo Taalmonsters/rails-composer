@@ -1,0 +1,25 @@
+.graph {
+  color: #777;
+  .graph-info {
+    display: inline-block;
+    &.hidden {
+      display: none;
+    }
+    .node-info {
+      
+    }
+    .links-info {
+      
+    }
+  }
+  .graph-display {
+    height: 600px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    border: 1px solid #777;
+  }
+  .graph-controls {
+    
+  }
+}
