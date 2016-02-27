@@ -1249,7 +1249,7 @@ end
 if (recipes.include? 'devise') || (recipes.include? 'omniauth')
   prefs[:authentication] = "omniauth"
   prefs[:omniauth_provider] = "facebook"
-  prefs[:authorization] = "none"
+  prefs[:authorization] = "roles"
   # prefs[:authentication] = multiple_choice "Authentication?", [["None", "none"], ["Devise", "devise"], ["OmniAuth", "omniauth"]] unless prefs.has_key? :authentication
   # case prefs[:authentication]
     # when 'devise'
