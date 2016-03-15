@@ -1935,11 +1935,11 @@ TEXT
     email_configuration_text = <<-TEXT
 \n
   config.action_mailer.smtp_settings = {
-    openssl_verify_mode: 0,
+    openssl_verify_mode: "none",
     address: "mail.taalmonsters.nl",
-    port: 25,
+    port: 587,
     domain: "taalmonsters.nl",
-    authentication: :plain,
+    authentication: "plain",
     enable_starttls_auto: true,
     user_name: Rails.application.secrets.email_provider_username,
     password: Rails.application.secrets.email_provider_password
