@@ -1802,8 +1802,8 @@ stage_two do
 # This file should be listed in .gitignore to keep your settings secret!
 # Each entry sets a local environment variable.
 # For example, setting:
-# GMAIL_USERNAME: Your_Gmail_Username
-# makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
+# TM_MAIL_ADDRESS: Your_TM_MAIL_ADDRESS
+# makes 'Your_TM_MAIL_ADDRESS' available as ENV["TM_MAIL_ADDRESS"]
 
 FILE
     end
@@ -1815,8 +1815,8 @@ FILE
 # This file should be listed in .gitignore to keep your settings secret!
 # Each entry sets a local environment variable.
 # For example, setting:
-# GMAIL_USERNAME=Your_Gmail_Username
-# makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
+# TM_MAIL_ADDRESS=Your_TM_MAIL_ADDRESS
+# makes 'Your_TM_MAIL_ADDRESS' available as ENV["TM_MAIL_ADDRESS"]
 
 FILE
     end
@@ -1941,8 +1941,8 @@ TEXT
     domain: "taalmonsters.nl",
     authentication: :plain,
     enable_starttls_auto: true,
-    user_name: "<%= ENV['TM_MAIL_ADDRESS'] %>",
-    password: "<%= ENV['TM_MAIL_PW'] %>"
+    user_name: Rails.application.secrets.email_provider_username,
+    password: Rails.application.secrets.email_provider_password
   }
 TEXT
     inject_into_file 'config/environments/development.rb', email_configuration_text, :after => "config.assets.debug = true"
@@ -2233,8 +2233,8 @@ stage_three do
     when 'smtp'
       secrets_email = foreman_email = ''
     when 'gmail'
-      secrets_email = "  email_provider_username: <%= ENV[\"GMAIL_USERNAME\"] %>\n  email_provider_password: <%= ENV[\"GMAIL_PASSWORD\"] %>"
-      foreman_email = "GMAIL_USERNAME=Your_Username\nGMAIL_PASSWORD=Your_Password\nDOMAIN_NAME=example.com\n"
+      secrets_email = "  email_provider_username: <%= ENV[\"TM_MAIL_ADDRESS\"] %>\n  email_provider_password: <%= ENV[\"TM_MAIL_PW\"] %>"
+      foreman_email = "TM_MAIL_ADDRESS=Your_Username\nTM_MAIL_PW=Your_Password\nDOMAIN_NAME=example.com\n"
     when 'sendgrid'
       secrets_email = "  email_provider_username: <%= ENV[\"SENDGRID_USERNAME\"] %>\n  email_provider_password: <%= ENV[\"SENDGRID_PASSWORD\"] %>"
       foreman_email = "SENDGRID_USERNAME=Your_Username\nSENDGRID_PASSWORD=Your_Password\nDOMAIN_NAME=example.com\n"
@@ -2488,14 +2488,14 @@ TEXT
     case prefs[:email]
       when 'gmail'
         append_file 'app.json' do <<-TEXT
-    "GMAIL_USERNAME": {
+    "TM_MAIL_ADDRESS": {
       "description": "Your Gmail address for sending mail.",
-      "value": 'ENV["GMAIL_USERNAME"]',
+      "value": 'ENV["TM_MAIL_ADDRESS"]',
       "required": false
     },
-    "GMAIL_PASSWORD": {
+    "TM_MAIL_PW": {
       "description": "Your Gmail password for sending mail.",
-      "value": 'ENV["GMAIL_PASSWORD"]',
+      "value": 'ENV["TM_MAIL_PW"]',
       "required": false
     },
 TEXT
