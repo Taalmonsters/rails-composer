@@ -1,5 +1,5 @@
 # Apply basic devise composer with Gmail action mailer
-apply "https://raw.github.com/Taalmonsters/rails-composer/master/devise-gmail-composer.rb"
+apply "https://raw.github.com/Taalmonsters/rails-composer/master/devise-taalmonsters-mail-composer.rb"
 
 # Add Taalmonster-specific css
 copy_from_repo 'app/assets/stylesheets/application.css.scss',
