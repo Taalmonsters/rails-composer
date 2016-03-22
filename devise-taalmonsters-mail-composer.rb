@@ -94,10 +94,7 @@ end
 def add_gem(*all) Gemfile.add(*all); end
 
 @recipes = ["core", "git", "railsapps", "learn_rails", "rails_bootstrap", "rails_foundation", "rails_omniauth", "rails_devise", "rails_devise_roles", "rails_devise_pundit", "rails_signup_download", "rails_mailinglist_activejob", "rails_stripe_checkout", "rails_stripe_coupons", "rails_stripe_membership_saas", "setup", "locale", "readme", "gems", "tests", "email", "devise", "omniauth", "roles", "frontend", "pages", "init", "analytics", "deployment", "extras"]
-@prefs = {
-  :mysql_username => '<%= ENV["DB_USER"] %>',
-  :mysql_password => '<%= ENV["DB_PW"] %>'
-}
+@prefs = {}
 @gems = []
 @diagnostics_recipes = [["example"], ["setup"], ["railsapps"], ["gems", "setup"], ["gems", "readme", "setup"], ["extras", "gems", "readme", "setup"], ["example", "git"], ["git", "setup"], ["git", "railsapps"], ["gems", "git", "setup"], ["gems", "git", "readme", "setup"], ["extras", "gems", "git", "readme", "setup"], ["email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["core", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["core", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["core", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["email", "example", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["email", "example", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["email", "example", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["apps4", "core", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["apps4", "core", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "tests"], ["apps4", "core", "deployment", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "testing"], ["apps4", "core", "deployment", "email", "extras", "frontend", "gems", "git", "init", "railsapps", "readme", "setup", "tests"], ["apps4", "core", "deployment", "devise", "email", "extras", "frontend", "gems", "git", "init", "omniauth", "pundit", "railsapps", "readme", "setup", "tests"]]
 @diagnostics_prefs = []
@@ -1715,7 +1712,7 @@ stage_two do
   say_wizard "configuring database"
   unless prefer :database, 'sqlite'
     copy_from_repo 'config/database-postgresql.yml', :prefs => 'postgresql'
-    copy_from_repo 'config/database-mysql.yml', :prefs => 'mysql'
+    copy_from_repo 'config/database-mysql.yml', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/', :prefs => 'mysql'
     if prefer :database, 'postgresql'
       begin
         pg_username = prefs[:pg_username] || ask_wizard("Username for PostgreSQL?(leave blank to use the app name)")
@@ -1741,17 +1738,6 @@ stage_two do
       gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
     end
     if prefer :database, 'mysql'
-      mysql_username = prefs[:mysql_username] || ask_wizard("Username for MySQL? (leave blank to use the app name)")
-      if mysql_username.blank?
-        gsub_file "config/database.yml", /username: .*/, "username: #{app_name}"
-      else
-        gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
-        mysql_password = prefs[:mysql_password] || ask_wizard("Password for MySQL user #{mysql_username}?")
-        gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
-        say_wizard "set config/database.yml for username/password #{mysql_username}/#{mysql_password}"
-      end
-      gsub_file "config/database.yml", /database: myapp_development/, "database: #{app_name}_development"
-      gsub_file "config/database.yml", /database: myapp_test/,        "database: #{app_name}_test"
       gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
     end
     unless prefer :database, 'sqlite'
