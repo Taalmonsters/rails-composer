@@ -978,7 +978,7 @@ if prefer :apps4, 'rails-stripe-coupons'
     generate 'migration AddStripeTokenToUsers stripe_token:string'
     generate 'scaffold Coupon code role mailing_list_id list_group price:integer --no-test-framework --no-helper --no-assets --no-jbuilder'
     generate 'migration AddCouponRefToUsers coupon:references'
-    run 'bundle exec rake db:migrate'
+    run 'bundle exec rake db:migrate RAILS_ENV=development'
 
     # >-------------------------------[ Config ]---------------------------------<
 
@@ -1103,7 +1103,7 @@ if prefer :apps4, 'rails-stripe-membership-saas'
     generate 'model Plan name stripe_id interval amount:integer --no-test-framework'
     generate 'migration AddPlanRefToUsers plan:references'
     generate 'migration RemoveNameFromUsers name'
-    run 'bundle exec rake db:migrate'
+    run 'bundle exec rake db:migrate RAILS_ENV=development'
 
     # >-------------------------------[ Config ]---------------------------------<
 
@@ -1743,12 +1743,12 @@ stage_two do
     unless prefer :database, 'sqlite'
       if (prefs.has_key? :drop_database) ? prefs[:drop_database] :
           (yes_wizard? "Okay to drop all existing databases named #{app_name}? 'No' will abort immediately!")
-        run 'bundle exec rake db:drop'
+        run 'bundle exec rake db:drop RAILS_ENV=development'
       else
         raise "aborted at user's request"
       end
     end
-    run 'bundle exec rake db:create:all'
+    run 'bundle exec rake db:create:all RAILS_ENV=development'
     ## Git
     git :add => '-A' if prefer :git, true
     git :commit => '-qm "rails_apps_composer: create database"' if prefer :git, true
@@ -1979,7 +1979,7 @@ stage_two do
       gsub_file 'app/models/user.rb', /:registerable,/, ":registerable, :confirmable,"
       generate 'migration AddConfirmableToUsers confirmation_token:string confirmed_at:datetime confirmation_sent_at:datetime unconfirmed_email:string'
     end
-    run 'bundle exec rake db:migrate'
+    run 'bundle exec rake db:migrate RAILS_ENV=development'
   end
   ### GIT ###
   git :add => '-A' if prefer :git, true
@@ -2006,7 +2006,7 @@ stage_two do
     copy_from_repo 'config/initializers/omniauth.rb', :repo => repo
     gsub_file 'config/initializers/omniauth.rb', /twitter/, prefs[:omniauth_provider] unless prefer :omniauth_provider, 'twitter'
     generate 'model User name:string provider:string uid:string'
-    run 'bundle exec rake db:migrate'
+    run 'bundle exec rake db:migrate RAILS_ENV=development'
     copy_from_repo 'app/models/user.rb', :repo => 'https://raw.github.com/RailsApps/rails-omniauth/master/'
     copy_from_repo 'app/controllers/application_controller.rb', :repo => repo
     filename = 'app/controllers/sessions_controller.rb'
@@ -2043,7 +2043,7 @@ stage_two do
   if (prefer :authorization, 'roles') || (prefer :authorization, 'pundit')
     if prefer :authentication, 'none'
       generate 'model User email:string'
-      run 'bundle exec rake db:migrate'
+      run 'bundle exec rake db:migrate RAILS_ENV=development'
     end
     generate 'migration AddRoleToUsers role:integer'
     role_boilerplate = "  enum role: [:user, :vip, :admin]\n  after_initialize :set_default_role, :if => :new_record?\n\n"
@@ -2322,9 +2322,9 @@ FILE
   ## DEVISE-INVITABLE
   if prefer :devise_modules, 'invitable'
     if prefer :local_env_file, 'foreman'
-      run 'foreman run bundle exec rake db:migrate'
+      run 'foreman run bundle exec rake db:migrate RAILS_ENV=development'
     else
-      run 'bundle exec rake db:migrate'
+      run 'bundle exec rake db:migrate RAILS_ENV=development'
     end
     generate 'devise_invitable user'
   end
@@ -2333,16 +2333,16 @@ FILE
     ## ACTIVE_RECORD
     say_wizard "applying migrations and seeding the database"
     if prefer :local_env_file, 'foreman'
-      run 'foreman run bundle exec rake db:migrate'
+      run 'foreman run bundle exec rake db:migrate RAILS_ENV=development'
     else
-      run 'bundle exec rake db:migrate'
+      run 'bundle exec rake db:migrate RAILS_ENV=development'
     end
   end
   unless prefs[:skip_seeds]
     if prefer :local_env_file, 'foreman'
-      run 'foreman run bundle exec rake db:seed'
+      run 'foreman run bundle exec rake db:seed RAILS_ENV=development'
     else
-      run 'bundle exec rake db:seed'
+      run 'bundle exec rake db:seed RAILS_ENV=development'
     end
   end
   ### GIT ###
@@ -2571,7 +2571,7 @@ TEXT
     end
     if File.exists?('db/migrate')
       gsub_file 'app.json', /"scripts": {/,
-          "\"scripts\": {\"postdeploy\": \"bundle exec rake db:migrate; bundle exec rake db:seed\""
+          "\"scripts\": {\"postdeploy\": \"bundle exec rake db:migrate RAILS_ENV=development; bundle exec rake db:seed RAILS_ENV=development\""
     end
   end
 end
