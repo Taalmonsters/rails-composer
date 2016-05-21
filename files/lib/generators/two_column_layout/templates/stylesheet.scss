@@ -1,25 +1,61 @@
-div.container-fluid {
-	height: 100%;
-	#left {
+.container-fluid {
+  height: 100%;
+  > div.row {
+    background: #EEE;
+    min-height: calc( 100% - 51px );
+    > #footer {
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+    }
+  }
+  #left {
     background: #CECECE;
-    border-right: 1px solid #999;
-		height: calc( 100% - 51px );
-		position: absolute;
-	    top: 51px;
-	    bottom: 0;
-	    left: 0;
-		overflow: hidden;
-		#footer {
-			position: absolute;
-			bottom: 0;
-		}
-	}
-	#right {
-		height: calc( 100% - 51px );
-		position: absolute;
-	    top: 51px;
-	    bottom: 0;
-	    right: 0;
-		overflow-y: auto;
-	}
+  }
+  #right {
+    border-top: 1px solid #999;
+    padding-bottom: 75px;
+    position: relative;
+  }
+}
+
+#menu {
+  margin: 20px 0;
+  > div.row:not(:first-child) {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #999;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    height: 100%;
+    > div.row {
+      > #footer {
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+      }
+    }
+    #left {
+      height: calc( 100% - 51px );
+      position: absolute;
+      top: 51px;
+      bottom: 0;
+      left: 0;
+      overflow: hidden;
+    }
+    #right {
+      border-left: 1px solid #999;
+      height: calc( 100% - 51px );
+      position: absolute;
+      top: 51px;
+      bottom: 0;
+      right: 0;
+      overflow-y: auto;
+      padding-top: 0px;
+      padding-bottom: 50px;
+    }
+  }
 }

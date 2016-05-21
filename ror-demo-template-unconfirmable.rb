@@ -56,16 +56,14 @@ git commit: %Q{ -m 'Add layout generators' }
 
 if yes?("Use two-column-layout?")
   # Transform to two-column layout
-  generate 'two_column_layout users index'
-  generate 'two_column_layout users show'
+  generate 'two_column_layout'
   git add: "."
-  git commit: %Q{ -m 'Transform User pages to two-column layout' }
+  git commit: %Q{ -m 'Apply two-column layout' }
 else
   # Transform to single-column layout
-  generate 'single_column_layout users index'
-  generate 'single_column_layout users show'
+  generate 'single_column_layout'
   git add: "."
-  git commit: %Q{ -m 'Transform User pages to single-column layout' }
+  git commit: %Q{ -m 'Apply single-column layout' }
 end
  
 # Add demo banner
