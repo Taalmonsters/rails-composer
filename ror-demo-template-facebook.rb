@@ -33,16 +33,6 @@ copy_from_repo 'app/views/home/index.html.erb',
   {:dest => 'app/views/visitors/index.html.erb', :repo => 'https://raw.github.com/Taalmonsters/rails-composer/master/files/'}
 git add: "."
 git commit: %Q{ -m 'Replace root index' }
- 
-# Add demo banner
-if yes?("Add demo banner?")
-  inject_into_file 'app/views/layouts/application.html.erb', :before => "</body>" do <<-'RUBY'
-      <div id="banner">DEMO</div>
-  RUBY
-  end
-  git add: "."
-  git commit: %Q{ -m 'Add demo banner' }
-end
 
 # Add layout generators
 copy_from_repo 'lib/generators/single_column_layout/single_column_layout_generator.rb',
@@ -76,6 +66,16 @@ else
   generate 'single_column_layout users show'
   git add: "."
   git commit: %Q{ -m 'Transform User pages to single-column layout' }
+end
+ 
+# Add demo banner
+if yes?("Add demo banner?")
+  inject_into_file 'app/views/layouts/application.html.erb', :before => "</body>" do <<-'RUBY'
+      <div id="banner">DEMO</div>
+  RUBY
+  end
+  git add: "."
+  git commit: %Q{ -m 'Add demo banner' }
 end
 
 # Add content to user index
