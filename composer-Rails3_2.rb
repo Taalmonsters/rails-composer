@@ -2467,9 +2467,9 @@ FILE
   ## DEVISE-CONFIRMABLE
   if (prefer :devise_modules, 'confirmable') || (prefer :devise_modules, 'invitable')
     if rails_4_1?
-      inject_into_file 'app/services/create_admin_service.rb', "        user.confirm!\n", :after => "user.password_confirmation = Rails.application.secrets.admin_password\n"
+      inject_into_file 'app/services/create_admin_service.rb', "        user.confirm\n", :after => "user.password_confirmation = Rails.application.secrets.admin_password\n"
     else
-      append_file 'db/seeds.rb', "user.confirm!\n"
+      append_file 'db/seeds.rb', "user.confirm\n"
     end
   end
   if (prefer :authorization, 'cancan') && !(prefer :authentication, 'omniauth')
