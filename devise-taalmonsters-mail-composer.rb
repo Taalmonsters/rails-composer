@@ -430,16 +430,16 @@ end
 
 prefs[:announcements] = 'none'
 
-unless prefs[:announcements]
-  say_loud '', 'Get on the mailing list for Rails Composer news?'
-  prefs[:announcements] = ask_wizard('Enter your email address:')
-  if prefs[:announcements].present?
-    system "curl --silent http://mailinglist.railscomposer.com/api -d'visitor[email]=#{prefs[:announcements]}' > /dev/null"
-    prefs[:announcements] = 'mailinglist'
-  else
-    prefs[:announcements] = 'none'
-  end
-end
+# unless prefs[:announcements]
+  # say_loud '', 'Get on the mailing list for Rails Composer news?'
+  # prefs[:announcements] = ask_wizard('Enter your email address:')
+  # if prefs[:announcements].present?
+    # system "curl --silent http://mailinglist.railscomposer.com/api -d'visitor[email]=#{prefs[:announcements]}' > /dev/null"
+    # prefs[:announcements] = 'mailinglist'
+  # else
+    # prefs[:announcements] = 'none'
+  # end
+# end
 # >-------------------------- recipes/railsapps.rb ---------------------------end<
 # >-------------------------- templates/recipe.erb ---------------------------end<
 
@@ -482,7 +482,7 @@ if prefer :apps4, 'learn-rails'
   prefs[:locale] = 'none'
   prefs[:analytics] = 'none'
   prefs[:rubocop] = false
-  prefs[:disable_turbolinks] = false
+  prefs[:disable_turbolinks] = true
 
   # gems
   add_gem 'high_voltage'
@@ -1192,18 +1192,18 @@ gemfile = File.read(destination_root() + '/Gemfile')
 sqlite_detected = gemfile.include? 'sqlite3'
 
 ## Web Server
-prefs[:dev_webserver] = "webrick"
-# prefs[:dev_webserver] = multiple_choice "Web server for development?", [["WEBrick (default)", "webrick"],
-  # ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"], ["Phusion Passenger (Apache/Nginx)", "passenger"],
+prefs[:dev_webserver] = "thin"
+# prefs[:dev_webserver] = multiple_choice "Web server for development?", [["Puma (default)", "puma"],
+  # ["Thin", "thin"], ["Unicorn", "unicorn"], ["Phusion Passenger (Apache/Nginx)", "passenger"],
   # ["Phusion Passenger (Standalone)", "passenger_standalone"]] unless prefs.has_key? :dev_webserver
 prefs[:prod_webserver] = "passenger"
 # prefs[:prod_webserver] = multiple_choice "Web server for production?", [["Same as development", "same"],
-  # ["Thin", "thin"], ["Unicorn", "unicorn"], ["Puma", "puma"], ["Phusion Passenger (Apache/Nginx)", "passenger"],
+  # ["Thin", "thin"], ["Unicorn", "unicorn"], ["Phusion Passenger (Apache/Nginx)", "passenger"],
   # ["Phusion Passenger (Standalone)", "passenger_standalone"]] unless prefs.has_key? :prod_webserver
-prefs[:prod_webserver] = prefs[:dev_webserver] if prefs[:prod_webserver] == 'same'
+# prefs[:prod_webserver] = prefs[:dev_webserver] if prefs[:prod_webserver] == 'same'
 
 ## Database Adapter
-prefs[:database] = "mysql"
+prefs[:database] = "sqlite"
 # prefs[:database] = "sqlite" if prefer :database, 'default'
 # prefs[:database] = multiple_choice "Database used in development?", [["SQLite", "sqlite"], ["PostgreSQL", "postgresql"],
   # ["MySQL", "mysql"]] unless prefs.has_key? :database
@@ -1248,7 +1248,7 @@ end
 ## Authentication and Authorization
 if (recipes.include? 'devise') || (recipes.include? 'omniauth')
   prefs[:authentication] = "devise"
-  prefs[:devise_modules] = "invitable"
+  prefs[:devise_modules] = "confirmable"
   prefs[:authorization] = "roles"
   prefs[:dashboard] = "none"
   # prefs[:authentication] = multiple_choice "Authentication?", [["None", "none"], ["Devise", "devise"], ["OmniAuth", "omniauth"]] unless prefs.has_key? :authentication
@@ -1271,47 +1271,47 @@ if (recipes.include? 'devise') || (recipes.include? 'omniauth')
 end
 
 ## Form Builder
-prefs[:form_builder] = "none"
-prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "none"], ["SimpleForm", "simple_form"]] unless prefs.has_key? :form_builder
+prefs[:form_builder] = "simple_form"
+# prefs[:form_builder] = multiple_choice "Use a form builder gem?", [["None", "none"], ["SimpleForm", "simple_form"]] unless prefs.has_key? :form_builder
 
 ## Pages
 if recipes.include? 'pages'
   prefs[:pages] = "about+users"
-  prefs[:pages] = multiple_choice "Add pages?", [["None", "none"],
-    ["Home", "home"], ["Home and About", "about"],
-    ["Home and Users", "users"],
-    ["Home, About, and Users", "about+users"]] unless prefs.has_key? :pages
+  # prefs[:pages] = multiple_choice "Add pages?", [["None", "none"],
+    # ["Home", "home"], ["Home and About", "about"],
+    # ["Home and Users", "users"],
+    # ["Home, About, and Users", "about+users"]] unless prefs.has_key? :pages
 end
 
 ## Bootstrap Page Templates
 if recipes.include? 'pages'
   if prefs[:frontend] == 'bootstrap3'
-    say_wizard "Which Bootstrap page template? Visit startbootstrap.com."
     prefs[:layouts] = "none"
-    prefs[:layouts] = multiple_choice "Add Bootstrap page templates?", [["None", "none"],
-    ["1 Col Portfolio", "one_col_portfolio"],
-    ["2 Col Portfolio", "two_col_portfolio"],
-    ["3 Col Portfolio", "three_col_portfolio"],
-    ["4 Col Portfolio", "four_col_portfolio"],
-    ["Bare", "bare"],
-    ["Blog Home", "blog_home"],
-    ["Business Casual", "business_casual"],
-    ["Business Frontpage", "business_frontpage"],
-    ["Clean Blog", "clean_blog"],
-    ["Full Width Pics", "full_width_pics"],
-    ["Heroic Features", "heroic_features"],
-    ["Landing Page", "landing_page"],
-    ["Modern Business", "modern_business"],
-    ["One Page Wonder", "one_page_wonder"],
-    ["Portfolio Item", "portfolio_item"],
-    ["Round About", "round_about"],
-    ["Shop Homepage", "shop_homepage"],
-    ["Shop Item", "shop_item"],
-    ["Simple Sidebar", "simple_sidebar"],
-    ["Small Business", "small_business"],
-    ["Stylish Portfolio", "stylish_portfolio"],
-    ["The Big Picture", "the_big_picture"],
-    ["Thumbnail Gallery", "thumbnail_gallery"]] unless prefs.has_key? :layouts
+    # say_wizard "Which Bootstrap page template? Visit startbootstrap.com."
+    # prefs[:layouts] = multiple_choice "Add Bootstrap page templates?", [["None", "none"],
+    # ["1 Col Portfolio", "one_col_portfolio"],
+    # ["2 Col Portfolio", "two_col_portfolio"],
+    # ["3 Col Portfolio", "three_col_portfolio"],
+    # ["4 Col Portfolio", "four_col_portfolio"],
+    # ["Bare", "bare"],
+    # ["Blog Home", "blog_home"],
+    # ["Business Casual", "business_casual"],
+    # ["Business Frontpage", "business_frontpage"],
+    # ["Clean Blog", "clean_blog"],
+    # ["Full Width Pics", "full_width_pics"],
+    # ["Heroic Features", "heroic_features"],
+    # ["Landing Page", "landing_page"],
+    # ["Modern Business", "modern_business"],
+    # ["One Page Wonder", "one_page_wonder"],
+    # ["Portfolio Item", "portfolio_item"],
+    # ["Round About", "round_about"],
+    # ["Shop Homepage", "shop_homepage"],
+    # ["Shop Item", "shop_item"],
+    # ["Simple Sidebar", "simple_sidebar"],
+    # ["Small Business", "small_business"],
+    # ["Stylish Portfolio", "stylish_portfolio"],
+    # ["The Big Picture", "the_big_picture"],
+    # ["Thumbnail Gallery", "thumbnail_gallery"]] unless prefs.has_key? :layouts
   end
 end
 
@@ -1496,6 +1496,7 @@ Rails Composer: http://railscomposer.com/
 TEXT
   end
 
+  remove_file 'README.md'
   create_file 'README.md', "#{app_name.humanize.titleize}\n================\n\n"
 
   if prefer :deployment, 'heroku'
@@ -1592,21 +1593,19 @@ if (prefs[:dev_webserver] == prefs[:prod_webserver])
   add_gem 'thin' if prefer :dev_webserver, 'thin'
   add_gem 'unicorn' if prefer :dev_webserver, 'unicorn'
   add_gem 'unicorn-rails' if prefer :dev_webserver, 'unicorn'
-  add_gem 'puma' if prefer :dev_webserver, 'puma'
   add_gem 'passenger' if prefer :dev_webserver, 'passenger_standalone'
 else
   add_gem 'thin', :group => [:development, :test] if prefer :dev_webserver, 'thin'
   add_gem 'unicorn', :group => [:development, :test] if prefer :dev_webserver, 'unicorn'
   add_gem 'unicorn-rails', :group => [:development, :test] if prefer :dev_webserver, 'unicorn'
-  add_gem 'puma', :group => [:development, :test] if prefer :dev_webserver, 'puma'
   add_gem 'passenger', :group => [:development, :test] if prefer :dev_webserver, 'passenger_standalone'
   add_gem 'thin', :group => :production if prefer :prod_webserver, 'thin'
   add_gem 'unicorn', :group => :production if prefer :prod_webserver, 'unicorn'
-  add_gem 'puma', :group => :production if prefer :prod_webserver, 'puma'
   add_gem 'passenger', :group => :production if prefer :prod_webserver, 'passenger_standalone'
 end
 
 ## Database Adapter
+gsub_file 'Gemfile', /gem 'sqlite3'\n/, '' unless prefer :database, 'sqlite'
 gsub_file 'Gemfile', /gem 'pg'.*/, ''
 add_gem 'pg' if prefer :database, 'postgresql'
 gsub_file 'Gemfile', /gem 'mysql2'.*/, ''
@@ -1739,6 +1738,18 @@ stage_two do
     end
     if prefer :database, 'mysql'
       gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
+      # mysql_username = prefs[:mysql_username] || ask_wizard("Username for MySQL? (leave blank to use the app name)")
+      # if mysql_username.blank?
+        # gsub_file "config/database.yml", /username: .*/, "username: #{app_name}"
+      # else
+        # gsub_file "config/database.yml", /username: .*/, "username: #{mysql_username}"
+        # mysql_password = prefs[:mysql_password] || ask_wizard("Password for MySQL user #{mysql_username}?")
+        # gsub_file "config/database.yml", /password:/, "password: #{mysql_password}"
+        # say_wizard "set config/database.yml for username/password #{mysql_username}/#{mysql_password}"
+      # end
+      # gsub_file "config/database.yml", /database: myapp_development/, "database: #{app_name}_development"
+      # gsub_file "config/database.yml", /database: myapp_test/,        "database: #{app_name}_test"
+      # gsub_file "config/database.yml", /database: myapp_production/,  "database: #{app_name}_production"
     end
     unless prefer :database, 'sqlite'
       if (prefs.has_key? :drop_database) ? prefs[:drop_database] :
@@ -1810,12 +1821,10 @@ FILE
     end
     create_file 'Procfile', "web: bundle exec rails server -p $PORT\n" if prefer :prod_webserver, 'thin'
     create_file 'Procfile', "web: bundle exec unicorn -p $PORT\n" if prefer :prod_webserver, 'unicorn'
-    create_file 'Procfile', "web: bundle exec puma -p $PORT\n" if prefer :prod_webserver, 'puma'
     create_file 'Procfile', "web: bundle exec passenger start -p $PORT\n" if prefer :prod_webserver, 'passenger_standalone'
     if (prefs[:dev_webserver] != prefs[:prod_webserver])
       create_file 'Procfile.dev', "web: bundle exec rails server -p $PORT\n" if prefer :dev_webserver, 'thin'
       create_file 'Procfile.dev', "web: bundle exec unicorn -p $PORT\n" if prefer :dev_webserver, 'unicorn'
-      create_file 'Procfile.dev', "web: bundle exec puma -p $PORT\n" if prefer :dev_webserver, 'puma'
       create_file 'Procfile.dev', "web: bundle exec passenger start -p $PORT\n" if prefer :dev_webserver, 'passenger_standalone'
     end
   end
@@ -2387,15 +2396,15 @@ say_recipe 'analytics'
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/analytics.rb
 
 prefs[:analytics] = "none"
-prefs[:analytics] = multiple_choice "Install page-view analytics?", [["None", "none"],
-  ["Google Analytics", "ga"],
-  ["Segment.io", "segmentio"]] unless prefs.has_key? :analytics
-case prefs[:analytics]
-  when 'ga'
-    ga_id = ask_wizard('Google Analytics ID?')
-  when 'segmentio'
-    segmentio_api_key = ask_wizard('Segment.io API key?')
-end
+# prefs[:analytics] = multiple_choice "Install page-view analytics?", [["None", "none"],
+  # ["Google Analytics", "ga"],
+  # ["Segment.io", "segmentio"]] unless prefs.has_key? :analytics
+# case prefs[:analytics]
+  # when 'ga'
+    # ga_id = ask_wizard('Google Analytics ID?')
+  # when 'segmentio'
+    # segmentio_api_key = ask_wizard('Segment.io API key?')
+# end
 
 stage_two do
   say_wizard "recipe stage two"
@@ -2430,9 +2439,9 @@ say_recipe 'deployment'
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/deployment.rb
 
 prefs[:deployment] = "no"
-prefs[:deployment] = multiple_choice "Prepare for deployment?", [["no", "none"],
-    ["Heroku", "heroku"],
-    ["Capistrano", "capistrano3"]] unless prefs.has_key? :deployment
+# prefs[:deployment] = multiple_choice "Prepare for deployment?", [["no", "none"],
+    # ["Heroku", "heroku"],
+    # ["Capistrano", "capistrano3"]] unless prefs.has_key? :deployment
 
 if prefer :deployment, 'heroku'
   say_wizard "installing gems for Heroku"
@@ -2604,13 +2613,13 @@ end
 @before_configs["extras"].call if @before_configs["extras"]
 say_recipe 'extras'
 config = {}
-config['disable_turbolinks'] = false
+config['disable_turbolinks'] = true
 # config['disable_turbolinks'] = yes_wizard?("Disable Rails Turbolinks?") if true && true unless config.key?('disable_turbolinks') || prefs.has_key?(:disable_turbolinks)
 config['ban_spiders'] = true
 # config['ban_spiders'] = yes_wizard?("Set a robots.txt file to ban spiders?") if true && true unless config.key?('ban_spiders') || prefs.has_key?(:ban_spiders)
 config['github'] = false
 # config['github'] = yes_wizard?("Create a GitHub repository?") if true && true unless config.key?('github') || prefs.has_key?(:github)
-config['local_env_file'] = multiple_choice("Add gem and file for environment variables?", [["None", "none"], ["Add .env with Foreman", "foreman"], ["Add application.yml with Figaro", "figaro"]]) if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
+config['local_env_file'] = multiple_choice("Add gem and file for environment variables?", [["None", "none"], ["Add .env with Foreman", "foreman"]]) if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
 config['quiet_assets'] = yes_wizard?("Reduce assets logger noise during development?") if true && true unless config.key?('quiet_assets') || prefs.has_key?(:quiet_assets)
 config['better_errors'] = yes_wizard?("Improve error reporting with 'better_errors' during development?") if true && true unless config.key?('better_errors') || prefs.has_key?(:better_errors)
 config['pry'] = yes_wizard?("Use 'pry' as console replacement during development and test?") if true && true unless config.key?('pry') || prefs.has_key?(:pry)
@@ -2621,77 +2630,77 @@ config['rubocop'] = yes_wizard?("Use 'rubocop' to ensure that your code conforms
 # Application template recipe for the rails_apps_composer. Change the recipe here:
 # https://github.com/RailsApps/rails_apps_composer/blob/master/recipes/extras.rb
 
-## RVMRC
-rvmrc_detected = false
-if File.exist?('.rvmrc')
-  rvmrc_file = File.read('.rvmrc')
-  rvmrc_detected = rvmrc_file.include? app_name
-end
-if File.exist?('.ruby-gemset')
-  rvmrc_file = File.read('.ruby-gemset')
-  rvmrc_detected = rvmrc_file.include? app_name
-end
-unless rvmrc_detected || (prefs.has_key? :rvmrc)
-  prefs[:rvmrc] = false
-  # prefs[:rvmrc] = yes_wizard? "Use or create a project-specific rvm gemset?"
-end
-if prefs[:rvmrc]
-  if which("rvm")
-    say_wizard "recipe creating project-specific rvm gemset and .rvmrc"
-    # using the rvm Ruby API, see:
-    # http://blog.thefrontiergroup.com.au/2010/12/a-brief-introduction-to-the-rvm-ruby-api/
-    # https://rvm.io/integration/passenger
-    if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
-      begin
-        gems_path = ENV['MY_RUBY_HOME'].split(/@/)[0].sub(/rubies/,'gems')
-        ENV['GEM_PATH'] = "#{gems_path}:#{gems_path}@global"
-        require 'rvm'
-        RVM.use_from_path! File.dirname(File.dirname(__FILE__))
-      rescue LoadError
-        raise "RVM gem is currently unavailable."
-      end
-    end
-    say_wizard "creating RVM gemset '#{app_name}'"
-    RVM.gemset_create app_name
-    say_wizard "switching to gemset '#{app_name}'"
-    # RVM.gemset_use! requires rvm version 1.11.3.5 or newer
-    rvm_spec =
-      if Gem::Specification.respond_to?(:find_by_name)
-        Gem::Specification.find_by_name("rvm")
-      else
-        Gem.source_index.find_name("rvm").last
-      end
-      unless rvm_spec.version > Gem::Version.create('1.11.3.4')
-        say_wizard "rvm gem version: #{rvm_spec.version}"
-        raise "Please update rvm gem to 1.11.3.5 or newer"
-      end
-    begin
-      RVM.gemset_use! app_name
-    rescue => e
-      say_wizard "rvm failure: unable to use gemset #{app_name}, reason: #{e}"
-      raise
-    end
-    if File.exist?('.ruby-version')
-      say_wizard ".ruby-version file already exists"
-    else
-      create_file '.ruby-version', "#{RUBY_VERSION}\n"
-    end
-    if File.exist?('.ruby-gemset')
-      say_wizard ".ruby-gemset file already exists"
-    else
-      create_file '.ruby-gemset', "#{app_name}\n"
-    end
-  else
-    say_wizard "WARNING! RVM does not appear to be available."
-  end
-end
-
-## QUIET ASSETS
-prefs[:quiet_assets] = true if config['quiet_assets']
-if prefs[:quiet_assets]
-  say_wizard "recipe setting quiet_assets for reduced asset pipeline logging"
-  add_gem 'quiet_assets', :group => :development
-end
+# ## RVMRC
+# rvmrc_detected = false
+# if File.exist?('.rvmrc')
+  # rvmrc_file = File.read('.rvmrc')
+  # rvmrc_detected = rvmrc_file.include? app_name
+# end
+# if File.exist?('.ruby-gemset')
+  # rvmrc_file = File.read('.ruby-gemset')
+  # rvmrc_detected = rvmrc_file.include? app_name
+# end
+# unless rvmrc_detected || (prefs.has_key? :rvmrc)
+  # prefs[:rvmrc] = false
+  # # prefs[:rvmrc] = yes_wizard? "Use or create a project-specific rvm gemset?"
+# end
+# if prefs[:rvmrc]
+  # if which("rvm")
+    # say_wizard "recipe creating project-specific rvm gemset and .rvmrc"
+    # # using the rvm Ruby API, see:
+    # # http://blog.thefrontiergroup.com.au/2010/12/a-brief-introduction-to-the-rvm-ruby-api/
+    # # https://rvm.io/integration/passenger
+    # if ENV['MY_RUBY_HOME'] && ENV['MY_RUBY_HOME'].include?('rvm')
+      # begin
+        # gems_path = ENV['MY_RUBY_HOME'].split(/@/)[0].sub(/rubies/,'gems')
+        # ENV['GEM_PATH'] = "#{gems_path}:#{gems_path}@global"
+        # require 'rvm'
+        # RVM.use_from_path! File.dirname(File.dirname(__FILE__))
+      # rescue LoadError
+        # raise "RVM gem is currently unavailable."
+      # end
+    # end
+    # say_wizard "creating RVM gemset '#{app_name}'"
+    # RVM.gemset_create app_name
+    # say_wizard "switching to gemset '#{app_name}'"
+    # # RVM.gemset_use! requires rvm version 1.11.3.5 or newer
+    # rvm_spec =
+      # if Gem::Specification.respond_to?(:find_by_name)
+        # Gem::Specification.find_by_name("rvm")
+      # else
+        # Gem.source_index.find_name("rvm").last
+      # end
+      # unless rvm_spec.version > Gem::Version.create('1.11.3.4')
+        # say_wizard "rvm gem version: #{rvm_spec.version}"
+        # raise "Please update rvm gem to 1.11.3.5 or newer"
+      # end
+    # begin
+      # RVM.gemset_use! app_name
+    # rescue => e
+      # say_wizard "rvm failure: unable to use gemset #{app_name}, reason: #{e}"
+      # raise
+    # end
+    # if File.exist?('.ruby-version')
+      # say_wizard ".ruby-version file already exists"
+    # else
+      # create_file '.ruby-version', "#{RUBY_VERSION}\n"
+    # end
+    # if File.exist?('.ruby-gemset')
+      # say_wizard ".ruby-gemset file already exists"
+    # else
+      # create_file '.ruby-gemset', "#{app_name}\n"
+    # end
+  # else
+    # say_wizard "WARNING! RVM does not appear to be available."
+  # end
+# end
+# 
+# ## QUIET ASSETS
+# prefs[:quiet_assets] = true if config['quiet_assets']
+# if prefs[:quiet_assets]
+  # say_wizard "recipe setting quiet_assets for reduced asset pipeline logging"
+  # add_gem 'quiet_assets', :group => :development
+# end
 
 ## LOCAL_ENV.YML FILE
 prefs[:local_env_file] = config['local_env_file'] unless (config['local_env_file'] == 'none')
