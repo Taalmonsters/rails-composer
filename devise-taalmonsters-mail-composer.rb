@@ -474,7 +474,6 @@ if prefer :apps4, 'learn-rails'
   prefs[:local_env_file] = 'none'
   prefs[:prod_webserver] = 'same'
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:secrets] = ['owner_email', 'mailchimp_list_id', 'mailchimp_api_key']
   prefs[:templates] = 'erb'
   prefs[:tests] = false
@@ -555,7 +554,6 @@ if prefer :apps4, 'rails-bootstrap'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -585,7 +583,6 @@ if prefer :apps4, 'rails-foundation'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -613,7 +610,6 @@ if prefer :apps4, 'rails-omniauth'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about+users'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -640,7 +636,6 @@ if prefer :apps4, 'rails-devise'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about+users'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -666,7 +661,6 @@ if prefer :apps4, 'rails-devise-roles'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about+users'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -692,7 +686,6 @@ if prefer :apps4, 'rails-devise-pundit'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:pages] = 'about+users'
   prefs[:locale] = 'none'
   prefs[:rubocop] = false
@@ -720,7 +713,6 @@ if prefer :apps4, 'rails-signup-download'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:secrets] = ['mailchimp_list_id', 'mailchimp_api_key']
   prefs[:pages] = 'about+users'
   prefs[:locale] = 'none'
@@ -790,7 +782,6 @@ if prefer :apps4, 'rails-mailinglist-activejob'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:secrets] = ['mailchimp_list_id', 'mailchimp_api_key']
   prefs[:pages] = 'about'
   prefs[:locale] = 'none'
@@ -868,7 +859,6 @@ if prefer :apps4, 'rails-stripe-checkout'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:secrets] = ['product_price',
     'product_title',
     'stripe_publishable_key',
@@ -953,7 +943,6 @@ if prefer :apps4, 'rails-stripe-coupons'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:secrets] = ['stripe_publishable_key',
     'stripe_api_key',
     'product_price',
@@ -1078,7 +1067,6 @@ if prefer :apps4, 'rails-stripe-membership-saas'
   prefs[:git] = true
   prefs[:local_env_file] = false
   prefs[:pry] = false
-  prefs[:quiet_assets] = true
   prefs[:disable_turbolinks] = true
   prefs[:secrets] = ['stripe_publishable_key',
     'stripe_api_key',
@@ -1342,7 +1330,6 @@ development:
   ban_spiders: #{prefs[:ban_spiders]}
   github: #{prefs[:github]}
   local_env_file: #{prefs[:local_env_file]}
-  quiet_assets: #{prefs[:quiet_assets]}
   better_errors: #{prefs[:better_errors]}
   pry: #{prefs[:pry]}
   rvmrc: #{prefs[:rvmrc]}
@@ -1461,8 +1448,6 @@ option  Create a GitHub repository? (y/n)
 choose  Enter your selection: [#{prefs[:github]}]
 option  Add gem and file for environment variables?
 choose  Enter your selection: [#{prefs[:local_env_file]}]
-option  Reduce assets logger noise during development?
-choose  Enter your selection: [#{prefs[:quiet_assets]}]
 option  Improve error reporting with 'better_errors' during development?
 choose  Enter your selection: [#{prefs[:better_errors]}]
 option  Use 'pry' as console replacement during development and test?
@@ -2620,7 +2605,6 @@ config['ban_spiders'] = true
 config['github'] = false
 # config['github'] = yes_wizard?("Create a GitHub repository?") if true && true unless config.key?('github') || prefs.has_key?(:github)
 config['local_env_file'] = multiple_choice("Add gem and file for environment variables?", [["None", "none"], ["Add .env with Foreman", "foreman"]]) if true && true unless config.key?('local_env_file') || prefs.has_key?(:local_env_file)
-config['quiet_assets'] = yes_wizard?("Reduce assets logger noise during development?") if true && true unless config.key?('quiet_assets') || prefs.has_key?(:quiet_assets)
 config['better_errors'] = yes_wizard?("Improve error reporting with 'better_errors' during development?") if true && true unless config.key?('better_errors') || prefs.has_key?(:better_errors)
 config['pry'] = yes_wizard?("Use 'pry' as console replacement during development and test?") if true && true unless config.key?('pry') || prefs.has_key?(:pry)
 config['rubocop'] = yes_wizard?("Use 'rubocop' to ensure that your code conforms to the Ruby style guide?") if true && true unless config.key?('rubocop') || prefs.has_key?(:rubocop)
@@ -2693,13 +2677,6 @@ config['rubocop'] = yes_wizard?("Use 'rubocop' to ensure that your code conforms
   # else
     # say_wizard "WARNING! RVM does not appear to be available."
   # end
-# end
-# 
-# ## QUIET ASSETS
-# prefs[:quiet_assets] = true if config['quiet_assets']
-# if prefs[:quiet_assets]
-  # say_wizard "recipe setting quiet_assets for reduced asset pipeline logging"
-  # add_gem 'quiet_assets', :group => :development
 # end
 
 ## LOCAL_ENV.YML FILE
@@ -2856,7 +2833,6 @@ redacted_prefs.delete(:local_env_file)
 redacted_prefs.delete(:main_branch)
 redacted_prefs.delete(:prelaunch_branch)
 redacted_prefs.delete(:prod_webserver)
-redacted_prefs.delete(:quiet_assets)
 redacted_prefs.delete(:rvmrc)
 redacted_prefs.delete(:templates)
 
